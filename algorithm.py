@@ -24,8 +24,6 @@ done
 
 '''
 
-# (intersections, roads, cars, info)
-
 
 class Simulation:
     def __init__(self, attrs):
@@ -35,6 +33,7 @@ class Simulation:
         self.info = attrs[3]
 
     def Step(self):
+        theAlgorithm(self.Intersections)
         for road in self.Roads:
             road.updateCars()
         for intersection in self.Intersections:
@@ -48,10 +47,16 @@ class Simulation:
                 num += 1
         return (float(num) / float(length)) * 100
 
+    def run(self):
+        print(self.info.D)
+        for i in range(self.info.D):
+            self.Step()
+        return self.Intersections
+
 
 def ChooseRoad(intersection):
     chosenRoad = intersection.incoming[0]
-    highestHeuristic = 999999999999999999999999999999999999999999999
+    highestHeuristic = 2 ^ 32 - 1
     for road in intersection.incoming:
         heuristic = 0
         for otherroad in intersection.incoming:
@@ -64,13 +69,27 @@ def ChooseRoad(intersection):
     return chosenRoad
 
 
-def theAlgorithm(simulation_info):
-    # G = (V,E) = (Intersections,Roads) - John would be proud
-    graph = simulation_info[0]
-    simulationTime = simulation_info[3]
-    greenLights = []
-    for intersection in graph[0]:
-        chosenRoad = ChooseRoad(intersection)
-        # loopedAlready
+def theAlgorithm(intersections):
 
-        for item in intersection.schedule
+    for intersection in intersections:
+        chosenRoad = ChooseRoad(intersection)
+
+        added = False
+        # print(intersection.schedule)
+        for item in intersection.schedule:
+            # print(chosenRoad.Name, item.Road.Name)
+            if (chosenRoad == item.Road):  # if chosen before
+                # if current is the last in schedule
+                if (item == intersection.schedule[-1]):
+                    oldCommand = intersection.schedule[-1]
+                    newCommand = TrafficCommand(
+                        chosenRoad, oldCommand.SecondsGreen + 1)
+                    intersection.schedule[-1] = newCommand
+                    added = True
+                else:
+                    added = True
+                    break
+
+        if added == False:
+            # print("Adding")
+            intersection.schedule.append(TrafficCommand(chosenRoad, 1))

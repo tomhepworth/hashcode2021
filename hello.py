@@ -25,11 +25,11 @@ class Car:
 
     # this should be fine :)
     def hasReachedDestination(self):
-        return self.currentIndex == len(self.Route)
+        return self.CurrentIndex == len(self.Route)
 
     def getNextIndex(self):
         toret = self.Route[self.CurrentIndex]
-        self.CurrentIndex + 1
+        self.CurrentIndex += 1
         return toret
 
 
@@ -49,12 +49,12 @@ class Road:
 
     def updateCars(self):
         # If there are no cars moving on the road, this is irrelevent
-        if len(OnCar) == 0:
+        if len(self.OnCar) == 0:
             return
 
         # Otherwise update all the positions of the cars
         for i in range(len(self.OnCarTimeLeft)):
-            if self.OnCarTimeLeft > 0:
+            if self.OnCarTimeLeft[i] > 0:
                 self.OnCarTimeLeft[i] -= 1
 
         # If the first car is at the end, pop it. Only it could possibly be at the end
@@ -100,7 +100,7 @@ class Intersection:
                 nextPlace = car.getNextIndex()
                 for road in self.outgoing:
                     if road.Name == nextPlace:
-                        road.addcar(car)
+                        road.addCar(car)
                         break
 
         self.timeOnCurrentLight += 1
@@ -109,13 +109,14 @@ class Intersection:
             self.timeOnCurrentLight = 0
             self.currentScheduleIndex += 1
             # Make sure we don't go out of range
-            if self.currentScheduleIndex > len(self.schedule):
+            if self.currentScheduleIndex >= len(self.schedule):
                 self.currentScheduleIndex = 0
                 self.loopedAlready = True
 
     def setupSchedule(self):
         for income in self.incoming:
-            command = TrafficCommand(income)
+            # This is what you change to change thelength of the thingy
+            command = TrafficCommand(income, 2)
             self.schedule.append(command)
 
     def appendCommand(self, command):

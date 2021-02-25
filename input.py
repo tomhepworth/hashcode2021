@@ -3,13 +3,14 @@ from algorithm import *
 
 
 class SimulationInfo:
-    def __init(self, line):
+    def __init__(self, line):
         firstLine = line.split(" ")
-        self.D = int(line[0])       # duration of simulation
-        self.I = int(line[1])       # number of intersections
-        self.S = int(line[2])       # Number of streets
-        self.V = int(line[3])       # number of cars
-        self.F = int(line[4])       # bonus points, trim of \n
+        print(firstLine)
+        self.D = int(firstLine[0])       # duration of simulation
+        self.I = int(firstLine[1])       # number of intersections
+        self.S = int(firstLine[2])       # Number of streets
+        self.V = int(firstLine[3])       # number of cars
+        self.F = int(firstLine[4])       # bonus points, trim of \n
 
 
 def readinput(filename):
@@ -44,8 +45,8 @@ def readinput(filename):
         cars.append(Car(lines[lineOn], roads))
         lineOn += 1
 
-    for i in intersections:
-        i.setupSchedule()
+    # for i in intersections:
+    #     i.setupSchedule()
 
     return (intersections, roads, cars, info)
 
@@ -57,9 +58,10 @@ def main():
         if(i > 0):
             print("===== RUNNING ON " + arg + " =====\n")
             sim_info = readinput(arg)  # g = (V,E)
-            theAlgorithm(sim_info)
+            sim_result = Simulation(sim_info).run()
+
             outputname = arg.split(".")[0] + "_output"
-            WriteOutput(sim_info[0], outputname)
+            WriteOutput(sim_result, outputname)
 
     print("end of mad clever shit bro")
 
