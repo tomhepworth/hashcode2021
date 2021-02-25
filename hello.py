@@ -23,12 +23,14 @@ class Car:
             if road.Name == splits[1]:
                 road.addCar(self)
 
+    # this should be fine :)
     def hasReachedDestination(self):
-        return self.currentIndex == len(self.Route) - 1
+        return self.currentIndex == len(self.Route)
 
     def getNextIndex(self):
         toret = self.Route[self.CurrentIndex]
-        self.CurrentIndex + turn
+        self.CurrentIndex + 1
+        return toret
 
 
 class Road:
@@ -71,10 +73,10 @@ class Road:
 
 class TrafficCommand:
     # no proper constructor because idk what to do
-    def __init__(self, roadRelevantTo):
+    def __init__(self, roadRelevantTo, time):
         self.Road = roadRelevantTo  # The road name
         # How long the lights are green for
-        self.SecondsGreen = random.randint(2, 4)
+        self.SecondsGreen = time
         # sets it up as random for now
 
 
@@ -86,6 +88,7 @@ class Intersection:
         self.schedule = []  # List of TrafficCommand
         self.timeOnCurrentLight = 0
         self.currentScheduleIndex = 0
+        self.loopedAlready = False
 
     def stepForwardsLights(self):
 
@@ -108,8 +111,12 @@ class Intersection:
             # Make sure we don't go out of range
             if self.currentScheduleIndex > len(self.schedule):
                 self.currentScheduleIndex = 0
+                self.loopedAlready = True
 
     def setupSchedule(self):
         for income in self.incoming:
             command = TrafficCommand(income)
             self.schedule.append(command)
+
+    def appendCommand(self, command):
+        self.schedule.append(command)

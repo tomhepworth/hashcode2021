@@ -2,8 +2,11 @@
 0
 1
 rue-de-londres 2
+rue-de-londres 2
 1
 2
+rue-d-amsterdam 2
+rue-d-athenes 2
 rue-d-amsterdam 2
 rue-d-athenes 2
 2

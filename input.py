@@ -56,9 +56,10 @@ def main():
     for i, arg in enumerate(sys.argv):
         if(i > 0):
             print("===== RUNNING ON " + arg + " =====\n")
-            graph = readinput(arg)  # g = (V,E)
+            sim_info = readinput(arg)  # g = (V,E)
+            theAlgorithm(sim_info)
             outputname = arg.split(".")[0] + "_output"
-            WriteOutput(graph[0], outputname)
+            WriteOutput(sim_info[0], outputname)
 
     print("end of mad clever shit bro")
 

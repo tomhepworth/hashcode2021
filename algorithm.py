@@ -40,6 +40,14 @@ class Simulation:
         for intersection in self.Intersections:
             intersection.stepForwardsLights()
 
+    def getReachedEndPercentage(self):
+        length = float(len(self.Cars))
+        num = 0.0
+        for car in self.Cars:
+            if car.hasReachedDestination():
+                num += 1
+        return (float(num) / float(length)) * 100
+
 
 def ChooseRoad(intersection):
     chosenRoad = intersection.incoming[0]
@@ -63,8 +71,6 @@ def theAlgorithm(simulation_info):
     greenLights = []
     for intersection in graph[0]:
         chosenRoad = ChooseRoad(intersection)
-        intersection.green = chosenRoad  # set the road with lowest heuristic to green
-        greenLights.append(chosenRoad)
+        # loopedAlready
 
-        oldCommand = intersection.schedule.pop()
-        newCommand = TrafficCommand()
+        for item in intersection.schedule
