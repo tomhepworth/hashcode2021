@@ -1,0 +1,15 @@
+For each intersection:
+    Maintain a queue of of all the streets and the cars waiting on each street
+    
+    For each light:
+        Calculate how many cars you'd prevent from going through by letting this light be green
+         - 
+    Pick the light with the smallest number ^
+
+For each car:
+    Keep track of where it is on the road
+    when it is 1 second away from the intersection, add it to the queue list for the intersection it's approaching
+    the street it's on and the street length
+    how far along is it on the road (x seconds)
+    how far does it have to move to cross the road (L - x seconds)
+    
